@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>funtionprogram</title>
+</head>
+<body>
+      <script>
+        const square = function(x){
+          return x * x;
+        }
+        console.log(square(5));
+
+        const foo = square;
+        console.log(foo(6));
+
+        function formalgreeting(){
+          console.log('How are you');
+        }
+        function casualgreeting(){
+          console.log("what's up?");
+        }
+        function greet(type, greetFormal, greetCasual){
+          if (type == 'fomal') {
+            greetFormal();
+          }else if(type == 'casual'){
+            greetCasual();
+          }
+        }
+        greet('casual', formalgreeting , casualgreeting);
+
+      </script>
+</body>
+</html>

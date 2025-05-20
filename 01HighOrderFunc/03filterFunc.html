@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03filterFunc.html</title>
+</head>
+  <script>
+      function fultettest1() {
+        console.error("filtertest1() 조건의 맞는 엘리먼트만 추출");
+        var oldarray = [1,2,3,4,5];
+        var newarray = oldarray.filter(function(currentVal) {
+          console.log("현재원소", currentVal);
+          return currentVal<=3;
+        });
+        console.log(newarray);
+      }
+
+      function fultettest2() {
+        console.error("filtertest2() 객체형 배열 사용 및 검색");
+        var oldJsonArray = [
+          {name : "혜빈", salary : 100000},
+          {name : "제인", salary : 200000},
+          {name : "나윤", salary : 300000},
+          {name : "주이", salary : 400000},
+          {name : "아인", salary : 500000},
+          {name : "낸시", salary : 600000},
+        ];
+        var newJsonArray = oldJsonArray.filter(function (currentVal) {
+          return currentVal.salary>=300000;
+        }, undefined);
+        console.log(newJsonArray);
+      }
+      function fultettest3() {
+        console.error("filtertest3() thisArgs 매개변수 사용하기");
+        var oldarray = [1,2,3,4,5,7, 50, 100];
+        var thisArgs = {min:1, max:10};
+        function getMinMax(value) {
+          return value>=this.min && value<=this.max;
+        }
+        var newarray = oldarray.filter(getMinMax, thisArgs);
+        console.log('thisArgs사용결과', newarray);
+      }
+  </script>
+  <body>
+      <input type="button" onclick="fultettest1()" value="filter1">
+      <input type="button" onclick="fultettest2()" value="filter2">
+      <input type="button" onclick="fultettest3()" value="filter3">
+  </body>
+</html>

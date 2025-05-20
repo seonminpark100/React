@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01forEachFunc.html</title>
+</head>
+  <script>
+      function foreachtest1() {
+        console.error("forEachTest1() called.. 기본사용법");
+        var oldarray = [1,2,3,4,5];
+        oldarray.forEach(function (currentVal, index, array) {
+          console.log('현재값:' + currentVal, '인데스:' +index, '배열:' + array);  
+        });
+      };
+      
+      function foreachtest2() {
+        console.error("forEachTest2() called.. 배열 요소의 합계");
+        var oldarray = [1,2,3,4,5];
+        var sum = 0;
+        function  getsum(currentVal) {
+          sum += currentVal;
+          
+        };
+        oldarray.forEach(getsum);
+        console.log(sum);  
+      };
+      function foreachtest3() {
+        console.error("forEachTest3() called.. args 매개변수 사용하기");
+        var oldarray = [1,2,3,4,5,6,7,8,9,10];
+        var sum = 0;
+        var myargs = {min:3, max:7};
+        function getsum(currentVal){
+          if (currentVal>= this.min && currentVal<=this.max) {
+            sum += currentVal;
+          }
+        }
+        oldarray.forEach(getsum, myargs);
+        console.log(sum);
+      }
+
+  </script>
+  <body>
+      <div>
+        <input type="button" onclick="foreachtest1();" value="forEach1">
+        <input type="button" onclick="foreachtest2();" value="forEach2">
+        <input type="button" onclick="foreachtest3();" value="forEach3">
+        
+      </div>
+  </body>
+</html>

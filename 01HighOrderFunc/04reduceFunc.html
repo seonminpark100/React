@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04reduceFunc.html</title>
+</head>
+  <script>
+    (function reducetest1() {
+        console.error(" 조건의 맞는 엘리먼트만 추출");
+        var oldarray = [0,1,2,3,4];
+        oldarray.reduce(function(previousVal, currentVal, index, array){ 
+          console.log(previousVal, currentVal, index);
+        });
+      }) ();
+
+      function reducetest2(){
+        console.error(" return 값 사용하기");
+        var oldarray = [0,1,2,3,4];
+        var sum = oldarray.reduce(function(previousVal, currentVal,) {
+          console.log(previousVal, currentVal);
+          return previousVal + currentVal;
+        });
+        console.log(sum);
+      }
+      
+      function reducetest3() {
+        console.error(" 초기 값 사용하기");
+        var oldarray = [0,1,2,3,4];
+        var sum = oldarray.reduce(function (previousVal, currentVal) {
+          console.log(previousVal, currentVal);
+          return previousVal + currentVal;
+        }, 2);
+        console.log(sum);
+      }
+
+      function reducetest4() {
+        console.error(" 배열에서 중복값을 제거하는 함수구현");
+        var oldarray = [0,1,2,3,3,3,4,5,5,6,6];
+        var newarray = oldarray.reduce(
+          function (previousVal, currentVal) {
+            if (previousVal.indexOf(currentVal)<0) {
+              previousVal.push(currentVal);
+            }
+            return previousVal;
+          },[]
+        );
+        console.log(newarray);
+      }
+  </script>
+<body>
+   <input type="button" onclick="reducetest1()"     value="reduce1">
+      <input type="button" onclick="reducetest2()" value="reduce2">
+      <input type="button" onclick="reducetest3()" value="reduce3">
+      <input type="button" onclick="reducetest4()" value="reduce4">
+</body>
+</html>
