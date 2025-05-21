@@ -1,34 +1,34 @@
 import React from "react";
 
+//읽기
 function ArticleView(props) {
-  console.log("선택한 계시물:",props.selectRow);
+  console.log("선택한게시물:", props.selectRow);
   return(
-
     <article>
-    <table id="boardTable">
-      <colgroup>
-        <col width="30%" /><col width="*" />
-      </colgroup>
-      <tbody>
-        <tr>
-          <th>작성자</th>
-          <td>{props.selectRow.write}</td>
-        </tr>
-        <tr>
-          <th>제목</th>
-          <td>{props.selectRow.title}</td>
-        </tr>
-        <tr>
-          <th>날짜</th>
-          <td>{props.selectRow.date}</td>
-        </tr>
-        <tr>
-          <th>내용</th>
-          <td>{props.selectRow.contents}</td>
-        </tr>
-      </tbody>
-    </table>
-</article>
+      <table id="boardTable">
+        <colgroup>
+          <col width="30%" /><col width="*" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td>작성자</td>
+            <td>{props.selectRow.writer}</td>
+          </tr>
+          <tr>
+            <td>제목</td>
+            <td>{props.selectRow.title}</td>
+          </tr>
+          <tr>
+            <td>날짜</td>
+            <td>{props.selectRow.date}</td>
+          </tr>
+          <tr>
+            <td>내용</td>
+            <td>{props.selectRow.contents}</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
   ); 
 }
 
