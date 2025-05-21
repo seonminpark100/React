@@ -18,7 +18,7 @@ function App() {
   }
   return (
     <div className='App'>
-      <h1>React 기본형</h1>
+      <h1>React 모듈화</h1>
       {contents}
 	  </div>
   );
