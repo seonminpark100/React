@@ -1,37 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
+import ComEdit from "./ComEdit";
 
 function ComList(props){
-  const lists = [];
-  for (let i = 0; i < props.myData.length; i++) {
-    let row = props.myData[i];
+  let lists = [];
+  const [showEdit, setShowEdit] = useState(false);
+  const [editNo, setEditNo] = useState(null);
+
+  const checkEdit =(no)=>{
+    if (showEdit ===true) {
+      alert("현재 수정mode 입니다. 수정 취소를 먼저 눌러주세요.");
+      setShowEdit(true);
+    }else{
+      setEditNo(no);
+    }
+  };
+
+  for (let row of props.myData) {
     lists.push(
+    <div key={row.no}>
+
+    {editNo === row.no ? null :
     <table id="boardTable" key={row.no}>
       <tbody>
       <tr>
         <td>{row.no}</td>
         <td>Writer:{row.writer}</td>
         <td>
-          Date:{row.date}
+        {row.date}
           <button type="button" onClick={(event)=>{
             event.preventDefault();
-            props.changeMode('edit', row.no);
+            setShowEdit(!showEdit);
+            checkEdit(row.no);
+            console.log(showEdit);
           }}>수정</button>							
-          <button type="button" onClick={(event)=>{
-            event.preventDefault();
-            if (window.confirm('삭제할까요?')) {
-              props.onDelete(row.no);
+          <button type="button" onClick={()=>{
+            if (window.confirm('삭제하시겠습니다?')) {
+              props.onDeleteComment(row.no);
             }
           }}>삭제</button>
         </td>
       </tr>
-      </tbody>
       <tr>
-        <td colspan="3" class="subject">{row.contents}</td>
+        <td colSpan="3" className="subject">{row.contents}</td>
       </tr>
-    </table>
-
-    )
-    
+      </tbody>
+    </table>   
+    }
+    {
+      editNo !== row.no ? null : 
+      <ComEdit no={row.no} writer={row.writer} comment={row.comment} onEditComment={props.onEditComment}
+      showEdit={showEdit} setShowEdit={setShowEdit}
+      editNo={editNo} setEditNo={setEditNo} />
+    }
+    </div>
+    );
   }
   return (<>
   {lists}

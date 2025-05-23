@@ -1,6 +1,6 @@
 import './App.css'
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
-import { Outlet, useLocation, useSearchParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 /**
 NavLink 컴포넌트는 <a>태그와 같이 하이퍼링크를 제공한다. 
@@ -68,77 +68,8 @@ const LayoutIndex = () => {
 /intro/router 경로가 요청되었을때 Outlet에 렌더링되는 컴포넌트 
  */
 const RouterHooks = () => {
-  /**  
-  useLocation
-    : React Router를 통해 라우팅된 페이지에서 현재 URL과 관련된 정보를
-    얻는데 사용된다. URL경로, 쿼리스트링 등의 관련정보를 제공한다. 
-  useSearchParams
-    : 현재 URL의 쿼리스트링을 얻어오거나 조작할때 사용한다. 
-   */
-  const location = useLocation();
-  //쿼리스트링에 대한 정보를 얻어오기 위한 변수와 변경을 위한 함수로 선언함 
-  const [serchParams, setSerchParams] = useSearchParams();
-  /* 쿼리스트링에서 파라미터를 얻어온다. 첫 진입시에는 둘다 null이된다. 
-  request.getParameter()와 기능적으로 동일하다. */
-  const mode = serchParams.get('mode');
-  const pageNum = serchParams.get('pageNum');
-
-  //파라미터 mode의 값을 토글시켜주는 함수 정의
-  const changMode = () => {
-    //삼항연산자를 통해 list/view를 토글한다. 
-    const nextMode = (mode==='list') ? 'view' : 'list';
-    /** 파라미터 변경을 위한 setXX() 함수를 통해 값을 변경시킨다. pageNum의
-    경우 값이 지정되지 않았으므로 기존의 값을 그대로 유지한다. 
-    */
-    setSerchParams({
-      mode : nextMode,
-      pageNum
-    });
-  }
-
-  //다음페이지로 이동하기 위한 파라미터 조작
-  const nextPage = () => {
-    //페이지번호가 없다면 1페이지로 지정하고, 아니면 +1 시켜준다.
-    let pageTemp = (pageNum===null || isNaN(pageNum)) ? 1 : parseInt(pageNum) + 1;
-    //최대 10페이지로 지정한다. 
-    if (pageTemp===11) {
-      pageTemp = 10;
-      window.alert('마지막 페이지 입니다.')
-    }
-    //mode는 고정된 상태에서 pageNum만 변경한다. 
-    setSerchParams({
-      mode,
-      pageNum : pageTemp
-    });
-  }
-
-  //nextPage와 기능적으로 완전히 동일한 함수
-  const prevPage = () => {
-    let pageTemp = (pageNum===null || isNaN(pageNum)) ? 1 : parseInt(pageNum) - 1;
-    //최대 10페이지로 지정한다. 
-    if (pageTemp===11) {
-      pageTemp = 1;
-      window.alert('첫번째 페이지 입니다.')
-    }
-    setSerchParams({
-      mode,
-      pageNum : pageTemp
-    });
-  }
-
   return(<>
     <h2>라우터 관련 Hook</h2>
-    <div>
-      <ul>
-        <li>URL : {location.pathname}</li>
-        <li>쿼리스트링 : {location.search}</li>
-        <li>mode : {mode}</li>
-        <li>detail : {pageNum}</li>
-      </ul>
-      <button onClick={changMode}>mod 변경</button>
-      <button onClick={prevPage}>이전Page</button>
-      <button onClick={nextPage}>다음Page</button>
-    </div>
   </>);
 }
 

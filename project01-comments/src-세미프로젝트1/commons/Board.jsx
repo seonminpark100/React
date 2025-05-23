@@ -5,10 +5,11 @@ const Board = (props) => {
   return (<>
     <h2>읽기 (Read)댓글 기능 구현</h2>
     <form name="writeFrm">
-    
       <input type="hidden" name="num" value="1" />
-      <table id="boardTable">
       <tbody>
+        
+    <table id="boardTable">
+      
         <tr>
           <th>번호</th>
           <td>100</td>
@@ -39,8 +40,9 @@ const Board = (props) => {
             <button type="button" onClick={()=>{}}>리스트로</button>
           </td>
         </tr>
-      </tbody>  
        </table>    
+      </tbody>
+       
     </form>
   </>);
 }
