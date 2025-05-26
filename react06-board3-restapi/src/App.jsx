@@ -4,6 +4,7 @@ import Write from './components/board/Write';
 import View from './components/board/View';
 import List from './components/board/List';
 import NotFound from './components/common/NotFound';
+import Edit from './components/board/Edit';
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
           <Route path=':idx' element={<Edit></Edit>}/>
           </Route> 
           <Route path='*' element={<NotFound />} />
+          <Route path='/edit'>
+            <Route path='idx' element={<Edit></Edit>} />
+          </Route>
         </Routes>
 	</div>
   );

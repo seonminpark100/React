@@ -11,9 +11,9 @@ function Edit(props) {
   let requestUrl = "http://nakja.co.kr/APIs/php7/boardEditJSON.php"
   let parameter = "apikey=0dda47d62e11745fe3e92dbc380ddbd4&tname=nboard_news&idx=" + params.idx;
 
-  const[writer, setWriter] = useState('');
-  const[title, setTitle] = useState('');
-  const[contents, setContents] = useState('');
+  const[Writer, setWriter] = useState('');
+  const[Title, setTitle] = useState('');
+  const[Contents, setContents] = useState('');
 
   useEffect(function() {
     fetch(requestUrl + "?" + parameter)
@@ -24,13 +24,16 @@ function Edit(props) {
       console.log(json)
       setWriter(json.name);
       setTitle(json.subject);
-      setContents
-    })
-  })
+      setContents(json);    
+    });
+    return ()=>{
+      console.log('useEffect실행 ==> 컴포넌트 언마운트');
+    }
+  }, []);
 
   return(<>
       <header>
-      <h2>게시판-작성</h2>
+      <h2>게시판-수정</h2>
     </header>
     <nav>
       <Link to="/list">목록</Link>
@@ -40,12 +43,14 @@ function Edit(props) {
         (event)=>{
           event.preventDefault();
 
+          let i = event.target.idx.value;
           let w = event.target.writer.value;
           let t = event.target.title.value;
           let c = event.target.contents.value;
           console.log(w,t,c);
 
-          fetch('http://nakja.co.kr/APIs/php7/boardWriteJSON.php',{
+
+          fetch('http://nakja.co.kr/APIs/php7/boardEditJSON.php',{
             method: 'POST',
             header:{
               'Content-type':'application/x-www-form-urlencoded;charset=UTF-8',
@@ -57,6 +62,7 @@ function Edit(props) {
               name: w,
               subject: t,
               content: c,
+              idx : i,
             }),
           })
           .then((response)=> response.json())
@@ -65,6 +71,7 @@ function Edit(props) {
           navigate("/list")
         }
       }>
+        <input type="hidden" name="idx" value={params.idx}/>
         <table id="boardTable">
           <tbody>
             <tr>
