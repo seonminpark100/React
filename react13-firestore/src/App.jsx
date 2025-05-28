@@ -1,35 +1,85 @@
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import './App.css'
 import { firestore } from './firestoreConfig';
-import{ doc, setDoc, getDoc} from "firebase/firestore";
+import { useState } from 'react';
 
 function App() {
-    console.log("firestore", firestore);
 
-    const addMessage = async()=>{
-      await setDoc(doc(firestore, "Korea", "Seoul"), {
-        gu:"은평구",
-        dong:"진관동",
-        hotplace:"연신내",
-      });
-      console.log("입력성공")
-    }
-    const getMessage = async()=>{
-      const docRef = doc(firestore, "Korea", "Seoul");
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      }
-      else{
-        console.log("No such document!")
-      }
-    }
+  const[showData, setShowData] = useState([]);
+
+    const getCollection = async (sField, sStr)=>{
+        console.log("선택",sField);
+
+        let getRows = [];
+
+        if (sField === 'id') {
+          const docRef = doc(firestore, "members", sStr);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            getRows.push(docSnap.data());
+          }
+          else{
+            console.log("No such document!");
+          }
+        }
+        else if (sField==='name') {
+          const memberRef = collection(firestore, "members");
+          const q = query(memberRef, where("name","==", sStr));
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc)=>{
+            console.log("반복인출", doc.id, doc.data());
+            getRows.push(doc.data());
+          });
+        }
+
+        let trArray = [];
+        console.log("getRows", getRows);
+        getRows.forEach((row)=>{
+          trArray.push(
+            <tr key={row.id}>
+              <td className='cen'>{row.id}</td>
+              <td className='cen'>{row.pass}</td>
+              <td className='cen'>{row.name}</td>
+              <td className='cen'>{row.regdate}</td>
+            </tr>
+          );
+        });
+       setShowData(trArray);
+  }
 
   return (
       <div className='App'>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"></link>
       <h2>Firebase - Firestore 연동 App</h2>
-      <h3>Firebase 연결</h3>
-      <input type="button" value='입력' onClick={addMessage} />
-      <input type="button" value='읽기' onClick={getMessage} />
+      <h3>검색하기</h3>
+
+      <form onSubmit={(e)=>{
+          e.preventDefault();
+
+          let sf = e.target.searchFild.value;
+          let ss = e.target.searchStr.value;
+          getCollection(sf,ss);
+
+      }}>
+        <div className='input-group' id='myForm'>
+          <select name='searchFild' className='form-control' >
+          <option value="id">아이디</option>
+          <option value="name">이름</option>
+        </select>
+        <input type="text" name='searchStr' className='form-control' />
+        <button type='submit' className='btn btn-secondary'>전체조회</button>
+        </div>
+        </form>
+        <table className='table table-bordered'>
+          <thead>
+          <tr className='text-center'>
+            <th>아이디</th><th>비밀번호</th><th>이름</th><th>가입일</th>
+          </tr>
+        </thead>
+          <tbody>
+            {showData}
+          </tbody>
+        </table>  
 	    </div>
   );
 }
